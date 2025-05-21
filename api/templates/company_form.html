@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Company</title>
+</head>
+<body>
+    <h1>Add a New Company</h1>
+    <form id="companyForm">
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="text" id="country" placeholder="Country" required><br>
+        <input type="text" id="industry" placeholder="Industry" required><br>
+        <input type="text" id="size" placeholder="Size" required><br>
+        <input type="email" id="contact_email" placeholder="Contact Email" required><br>
+        <button type="submit">Add Company</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('companyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('name').value,
+                country: document.getElementById('country').value,
+                industry: document.getElementById('industry').value,
+                size: document.getElementById('size').value,
+                contact_email: document.getElementById('contact_email').value,
+            };
+            const response = await fetch('http://localhost:8000/api/companies/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById('result').innerText = 'Company added!';
+            } else {
+                document.getElementById('result').innerText = JSON.stringify(result);
+            }
+        });
+    </script>
+</body>
+</html>
